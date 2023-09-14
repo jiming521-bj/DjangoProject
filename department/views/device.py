@@ -4,7 +4,7 @@
 # @File     : device.py
 # @SoftWare : PyCharm
 
-from django.shortcuts import render, HttpResponse,redirect
+from django.shortcuts import render, HttpResponse, redirect
 from django.views.decorators.csrf import csrf_exempt
 from department.my_forms import Device_List
 from django.http import JsonResponse  # 返回JSON格式的数据

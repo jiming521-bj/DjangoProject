@@ -7,6 +7,7 @@
 from django.shortcuts import render, HttpResponse
 import os
 
+
 def upload_list(request):
     """
     文件上传列表
