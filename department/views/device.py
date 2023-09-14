@@ -11,6 +11,7 @@ from django.http import JsonResponse  # 返回JSON格式的数据
 import json
 from department import models
 from department.utils import myPage
+from openpyxl import load_workbook
 
 
 def device_list(request):
@@ -103,8 +104,45 @@ def device_muilt(request):
 
     # 获取文件上传的内容
     files = request.FILES.get('files')
+    files_name_list = ['xls', 'xlsx', 'xlsm', 'pdf', 'et']
+    if not files:
+        return HttpResponse("<script>alert('请上传文件');window.location='/device/list/';</script>")
+    # 获取文件名
+    f_name = files.name
+    # 使用split获取文件后缀
+    suffix_file = f_name.split('.')[1]
 
-    print(files)
+    # 排出不是Excel格式的文件
+    if suffix_file not in files_name_list:
+        return HttpResponse("<script>alert('请上传Excel格式的文件');window.location='/device/list/';</script>")
 
+    # 处理Excel数据 将数据写入到Device数据库中
+    # 1、获取Excel操作对象
+    wb = load_workbook(files)
+
+    # 2、获取工作簿 首个工作簿
+    sheet = wb.worksheets[0]
+
+    flag = True
+    # 解析工作簿中的数据
+    for i in range(2, sheet.max_row):
+        # for j in range(0, sheet.max_column):
+        # print(sheet[i][j].value)
+        # 获取数据操作对象
+        print(sheet[i][0])
+        if models.Device.objects.filter(title=sheet[i][0].value).exists():
+            flag = False
+            continue
+        try:
+            models.Device.objects.create(
+                title=sheet[i][0].value,
+                detail=sheet[i][1].value,
+                level=sheet[i][2].value,
+                person_id=request.session['info'].get('id')
+            )
+        except ValueError:
+            raise ValueError
+    if not flag:
+        return HttpResponse("<script>alert('列表中已经存在任务了，请不要重复添加！');window.location='/device/list/';</script>")
     # 返回响应数据
     return HttpResponse("<script>alert('文件上传成功');window.location='/device/list/';</script>")
