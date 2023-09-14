@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>用户登录</title>
+</head>
+<body>
+    <h1>明达科技有限公司</h1>
+    <form action="" method="post">
+        {% csrf_token %}   {# 解决跨域问题 #}
+        <label for="name">
+            姓名:<input type="text" name="user" id="name">
+        </label>
+        <label for="pwd">
+            密码: <input type="password" name="password" id="pwd">
+        </label>
+        <input type="submit" value="提交">{{ error_msg }}
+    </form>
+</body>
+</html>

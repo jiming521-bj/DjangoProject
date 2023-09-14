@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>文件上传</h1>
+    <!-- enctype:multipart/form-data表示支持上传文件内容 -->
+    <form action="/upload/value/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-sm-6">
+                <!-- 用户姓名 -->
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="姓名" name="username">
+                </div><!-- /input-group -->
+            </div>
+            <div class="col-sm-6">
+                <!-- 用户年龄 -->
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="年龄" name="userAge">
+                </div><!-- /input-group -->
+            </div> 
+        </div>
+        <!-- 头像文件 -->
+        <input type="file" name="files" id="" style="margin-top: 20px;">
+        <input type="submit" value="提交" class="btn btn-primary btn-sm" style="margin-top: 10px; width: 100px;">
+    </form>
+</div>
+{% endblock %}

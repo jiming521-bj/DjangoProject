@@ -1,0 +1,163 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>部门列表</title>
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- 最新的Echarts图表JS文件 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.2/echarts.min.js"></script>
+    <!-- 加载图标文件-->
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+
+    {% block css %}
+
+    {% endblock %}
+    <style>
+        .navbar {
+            border-radius: 0;
+        }
+
+        .margin-top-value {
+            margin-top: 15px;
+        }
+    </style>
+
+    {% block style %}
+
+    {% endblock %}
+</head>
+<body>
+<div class="container-fluid margin-top-value">
+    {#    导航条#}
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">明达科技有限公司信息管理</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav" id="myUl">
+                    <li><a href="/depart/list/">部门管理</a></li>
+                    <li><a href="/user/list/">用户管理</a></li>
+                    <li><a href="/pretty/list/">靓号管理</a></li>
+                    <li><a href="/admin/list/">管理员账号</a></li>
+                    <li><a href="/device/list/">设备管理</a></li>
+                    <li><a href="/order/list/">订单管理</a></li>
+                    <li><a href="/echarts/list/">Echarts图表</a></li>
+                    <li><a href="/upload/list/">文件上传</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {#                    <li>#}
+                    {#                        <!-- Button trigger modal -->#}
+                    {#                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal"#}
+                    {#                                style="outline: none;margin: 10px 0 10px 12px; width: 60px;">#}
+                    {#                            登录#}
+                    {#                        </button>#}
+                    {#                        <!-- Modal -->#}
+                    {#                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">#}
+                    {#                            <div class="modal-dialog" role="document">#}
+                    {#                                <div class="modal-content">#}
+                    {#                                    <div class="modal-header">#}
+                    {#                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+                    {#                                            <span aria-hidden="true">&times;</span></button>#}
+                    {#                                        <h4 class="modal-title" id="myModalLabel">明达科技网-登录</h4>#}
+                    {#                                    </div>#}
+                    {#                                    <div class="modal-body">#}
+                    {#                                        <div class="row">#}
+                    {#                                            <div class="col-sm-3"></div>#}
+                    {#                                            <div class="col-sm-6">#}
+                    {#                                                <form action="" method="post">#}
+                    {#                                                    {% csrf_token %}#}
+                    {#                                        用户名#}
+                    {#                                                    <div class="input-group" style="margin-top: 30px;">#}
+                    {#                                                        <span class="input-group-addon" id="sizing-addon2">{{ forms.username.label }}</span>#}
+                    {#                                                        <input type="text" class="form-control" placeholder="Username"#}
+                    {#                                                               aria-describedby="sizing-addon2">#}
+                    {#                                                    </div>#}
+                    {#                                        密码#}
+                    {#                                                    <div class="input-group"#}
+                    {#                                                         style="margin-top: 45px; margin-bottom: 45px;">#}
+                    {#                                                        <span class="input-group-addon" id="sizing-addon2">{{ forms.password.label }}</span>#}
+                    {#                                                        <input type="text" class="form-control" placeholder="Password"#}
+                    {#                                                               aria-describedby="sizing-addon2">#}
+                    {#                                                    </div>#}
+                    {#                                                </form>#}
+                    {#                                            </div>#}
+                    {#                                            <div class="col-sm-3"></div>#}
+                    {#                                        </div>#}
+                    {#                                    </div>#}
+                    {#                                    <div class="modal-footer">#}
+                    {#                                        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">关闭#}
+                    {#                                        </button>#}
+                    {#                                        <button type="button" class="btn btn-primary btn-sm">提交</button>#}
+                    {#                                    </div>#}
+                    {#                                </div>#}
+                    {#                            </div>#}
+                    {#                        </div>#}
+                    {##}
+                    {#                    </li>#}
+                    {% if not request.session.info.name %}
+                        <li><a href="/login/">登录</a></li>
+                    {% endif %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">
+                            {% if request.session.info.name %}
+                                {{ request.session.info.name }}
+                            {% else %}
+                                未登录
+                            {% endif %}
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            {% if request.session.info.name %}
+                                <li><a href="/admin/list/">查看信息</a></li>
+                                <li><a href="/admin/{{ request.session.info.id }}/edit/">修改资料</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="/loginout/">注销</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    {#    模板内容#}
+    <div>
+        {% block content %}
+
+        {% endblock %}
+    </div>
+</div>
+</body>
+{# 增加的js模块#}
+{% block js %}
+
+{% endblock %}
+<script>
+    // 获取元素对象
+    const ul = document.querySelector('#myUl')
+    lis = ul.children  // 获取所有的子元素
+    for (let i = 0; i < lis.length; i++) {
+        lis[i].addEventListener('click', function () {
+            $('li.active').removeClass('active');
+            $(this).addClass('active');
+        })
+    }
+</script>
+</html>

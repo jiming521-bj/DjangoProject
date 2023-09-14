@@ -1,0 +1,163 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>吉明科技项目管理</title>
+    <link rel="stylesheet" href="{% static 'css/show-page.css' %}">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- 最新的Echarts图表JS文件 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.2/echarts.min.js"></script>
+
+    <style>
+        .navbar {
+            border-radius: 0;
+        }
+
+        .margin-top-value {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid margin-top-value">
+    {#    导航条#}
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">明达科技有限公司信息管理</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="#">部门管理 <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li><a href="#">企业介绍</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">登录</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">个人信息 <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {#    添加按钮#}
+    <div class="container" style="margin-bottom: 10px;">
+        <a href="/depart/add/" class="btn btn-success">
+            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+            添加部门
+        </a>
+    </div>
+    {#    表格#}
+    <div class="container">
+        <div class="bs-example" data-example-id="panel-without-body-with-table">
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+                    部门信息列表
+                </div>
+                <!-- Table -->
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>部门名称</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for foo in data_list %}
+                        <tr>
+                            <td>{{ foo.id }}</td>
+                            <td>{{ foo.depart_name }}</td>
+                            <td>
+                                <a class="btn btn-primary btn-sm" href="/depart/update/?uid={{ foo.id }}">修改</a>
+                                {#                                <button class="btn btn-primary" id="test_{{foo.id }}">修改</button>#}
+                                <a class="btn btn-danger btn-sm" href="/depart/delete/?nid={{ foo.id }}">删除</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    {# data{{ data }}#}
+    {#    上一页#}
+    <form method="post" action="/depart/list/?paging=pr" class="last_disable">
+        {% csrf_token %}
+        <input type="submit" name="pr" value="<<" class="btn">
+    </form>
+
+    {#    首页#}
+    <form method="post" action="/depart/list/?paging=first">
+        {% csrf_token %}
+        <input type="submit" name="first" value="1" class="btn last">
+    </form>
+    ...
+
+    {# 当前页数 #}
+    <span class="btn current" style="background:#5596e4;">{{ page }}</span>...
+
+    <form method="post" action="/depart/list/?paging=end">
+        {% csrf_token %}
+        <input type="submit" name="end" value="{{ end }}" class="btn next">
+    </form>
+
+    {#    下一页#}
+    <form method="post" action="/depart/list/?paging=nx" class="next_disable">
+        {% csrf_token %}
+        <input type="submit" name="nx" value=">>" class="btn">
+    </form>
+</div>
+
+<script>
+    $(function () {
+        // << >> 隐藏显示
+        if ($(".current").html() === $(".last").val() && $(".current").html() === $(".next").val()) {
+            $(".last_disable").hide()
+            $(".next_disable").hide()
+        } else if ($(".current").html() === $(".last").val() && $(".current").html() !== $(".next").val()) {
+            $(".last_disable").hide()
+            $(".next_disable").show()
+        } else if ($(".current").html() !== $(".last").val() && $(".current").html() === $(".next").val()) {
+            $(".last_disable").show()
+            $(".next_disable").hide()
+        } else {
+            $(".last_disable").show()
+            $(".next_disable").show()
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <input type="text" id="d1"><label for="d1">+</label>
+            <input type="text" id="d2"><label for="d2">=</label>
+            <label for="d3"></label><input type="text" id="d3">
+            <button id="d4" class="btn">提交</button>
+        </div>
+    </div>
+</div>
+{% csrf_token %}
+</body>
+<script>
+    {#const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;#}
+    {##}
+    {#function getCookie(name) {#}
+    {#    let cookieValue = null;#}
+    {#    if (document.cookie && document.cookie !== '') {#}
+    {#        const cookies = document.cookie.split(';');#}
+    {#        for (let i = 0; i < cookies.length; i++) {#}
+    {#            const cookie = cookies[i].trim();#}
+    {#            // Does this cookie string begin with the name we want?#}
+    {#            if (cookie.substring(0, name.length + 1) === (name + '=')) {#}
+    {#                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));#}
+    {#                break;#}
+    {#            }#}
+    {#        }#}
+    {#    }#}
+    {#    return cookieValue;}#}
+
+    // 发送ajax请求
+    $("#d4").click(function () {
+        // 获取文本框1的值
+        let value1 = $('#d1').val()
+        let value2 = $('#d2').val()
+        console.log(value1, value2)
+        // 发送ajax请求
+
+        $.ajax({
+            url: '/depart/index/',   // 请求路径
+            type: 'post',    // 请求方式
+            {#headers: {'X-CSRFTOKEN': getCookie('csrftoken')},#}
+            data: {num1: value1, num2: value2, csrfmiddlewaretoken: '{{ csrf_token }}'},  // 参数体
+            contentType: 'application/json',
+            success: function (res) {
+                // 回调成功函数
+                console.log(res)
+                $('#d3').val(res)   // 设置结果到d3文本框中
+            }
+        })
+    })
+</script>
+</html>

@@ -1,0 +1,6 @@
+/depart/delete/?nid={{ foo.id }}
+
+###
+/depart/delete/?nid='{{ foo.id }}'
+
+###

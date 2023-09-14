@@ -1,0 +1,62 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: #bdbdbd;
+}
+
+
+/* 去掉input点击后边框颜色 */
+
+input {
+    outline: none;
+}
+
+
+/* 去掉input，type为number时的上下箭头 */
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+form {
+    display: inline;
+}
+
+input[type=submit] {
+    padding: 8px 15px;
+    background-color: #5596e4;
+    border: 0;
+    font-size: 13px;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.footer {
+    position: absolute;
+    /* 这里位置由你来定义 */
+    bottom: 30px;
+    /* 这里是，盒子以左边的走了定义相对定位的父亲的百分之50，
+所以它要退回百分之50自身的长度，才能居中 */
+    left: 50%;
+    transform: translate(-40%);
+}
+
+.footer .btn {
+    margin: 0 10px;
+    padding: 15px;
+    border: 0;
+    box-shadow: 2px 2px 9px -1px rgb(0 0 0);
+    color: #ffffff;
+    border-radius: 10px;
+}

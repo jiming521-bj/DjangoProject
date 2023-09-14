@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户更新</title>
+</head>
+<body>
+<form method="post">
+    {% csrf_token %}
+    <label for="name">
+        姓名：<input type="text" name="username" id="name" value="{{ data_set.name }}">
+    </label>
+    <label for="name">
+        密码: <input type="password" name="password" id="pwd" value="{{ data_set.password }}">
+    </label>
+    <label for="age">
+        年龄: <input type="number" name="age" id="age" value="{{ data_set.age }}">
+    </label>
+    <label for="size">
+        大小: <input type="text" name="size" id="size" value="{{ data_set.size }}">
+    </label>
+    <label for="data_set">
+        数据: <input type="text" name="data" id="data_set" value="{{ data_set.data }}">
+    </label>
+
+    <input type="submit" value="修改">
+</form>
+</body>
+</html>

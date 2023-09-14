@@ -1,0 +1,729 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+    <!-- 轮播图 -->
+    <div class="container-fluid">
+        <div class="col-sm-8">
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="4"></li>
+                </ol>
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+                    {% for foo in url_set %}
+                        {% if foo.name == '自在独行' %}
+                            <div class="item active">
+                                <img src="{{ foo.url }}"
+                                     alt="{{ foo.name }}"
+                                     style="width: 100%; height: 520px;">
+                                <div class="carousel-caption">
+                                    {{ foo.name }}
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="item">
+                                <img src="{{ foo.url }}"
+                                     alt="{{ foo.name }}"
+                                     style="width: 100%;height: 520px;">
+                                <div class="carousel-caption">
+                                    {{ foo.name }}
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <!-- Controls -->
+                <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="jumbotron" style="height: 520px;">
+                <h1 style="font: normal 100 59px 'microsoft YaHei'; margin-bottom: 35px; cursor: pointer;" onclick="toggleMusic()">蓝云花海</h1>
+                <p style="font: normal 100 20px '宋体';">
+                    这是一场没有尽头的旅途，不要浪费在原地踏步
+                    这是一场没有尽头的旅途，不要浪费在原地踏步
+                    这是一场没有尽头的旅途，不要浪费在原地踏步
+                    这是一场没有尽头的旅途，不要浪费在原地踏步
+                    这是一场没有尽头的旅途，不要浪费在原地踏步
+                    这是一场没有尽头的旅途，不要浪费在原地踏步
+                    这是一场没有尽头的旅途
+                </p>
+                <p>
+                    <a class="btn btn-primary btn-lg"
+                       href="https://www.baidu.com" role="button" target="_blank" style="margin-top: 20px;">学习更多</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 内容显示列表 -->
+    <div class="container-fluid">
+        <div class="page-header">
+            <h3>吉明信息管理 <small>如果机会不在我也一定把握</small></h3>
+        </div>
+        <div class="row">
+            {% for foo in querySet %}
+                <div class="col-sm-3 col-md-2">
+                    <div class="thumbnail">
+                        <img src='{{ foo.depart_images }}' alt="美丽1">
+                        <div class="caption">
+                            <h3>{{ foo.depart_name }}</h3>
+                            <p>{{ foo.depart_introduce }}</p>
+                            <p><a href="/depart/update/?uid={{ foo.id }}"
+                                  class="btn btn-primary btn-sm" role="button">
+                                查看详情</a> <a href="#"
+                                            class="btn btn-default"
+                                            role="button" style="font-weight: 700">负责人：{{ foo.depart_principal }}</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="page-header">
+            <h3>吉明人员信息 <small>这是我们之间的故事</small></h3>
+        </div>
+        <div class="row">
+            {% for foo1 in querySet_1 %}
+                <div class="col-sm-6 col-md-3">
+                    <div class="thumbnail">
+                        <img src='{{ foo1.depart_images }}' alt="美丽1">
+                        <div class="caption">
+                            <h3>{{ foo1.depart_name }}</h3>
+                            <p>{{ foo1.depart_introduce }}</p>
+                            <p><a href="/depart/update/?uid={{ foo1.id }}" class="btn btn-primary"
+                                  role="button">查看详情</a> <a href="#"
+                                                            class="btn btn-default"
+                                                            role="button"
+                                                            style="font-weight: 700;">贡献者：{{ foo1.depart_principal }}</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="page-header">
+            <h3>吉明信息管理 <small>没有什么可以阻挡对自由的向往</small></h3>
+        </div>
+        <div class="row">
+            {% for foo in querySet_2 %}
+                <div class="col-sm-6 col-md-3">
+                    <div class="thumbnail">
+                        <img src="{{ foo.depart_images }}" alt="美丽1">
+                        <div class="caption">
+                            <h3>{{ foo.depart_name }}</h3>
+                            <p>{{ foo.depart_introduce }}</p>
+                            <p><a href="/depart/update/?uid={{ foo.id }}" class="btn btn-primary" role="button">查看详情</a>
+                                <a href="#"
+                                   class="btn btn-default"
+                                   role="button" style="font-weight: 700">贡献者：{{ foo.depart_principal }}</a></p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- 列表内容组 -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="panel panel-primary" style="height: 360px;">
+                    <div class="panel-body">
+                        突然的自我
+                    </div>
+                    <div class="panel-footer">那是一条神奇的天路</div>
+                    <div class="panel-footer">不断的挑战自己</div>
+                    <div class="panel-footer">假如爱有天意</div>
+                    <div class="panel-footer">时间都去哪儿了</div>
+                    <div class="panel-footer">挪威的森林</div>
+                    <div class="panel-footer">听见水手说</div>
+                    <div class="panel-footer">没有什么可以阻挡</div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="bs-example" data-example-id="panel-without-body-with-table">
+                    <div class="panel panel-default" style="height: 360px; overflow: hidden">
+                        <!-- Default panel contents -->
+                        <div class="panel-heading">用户信息</div>
+                        <!-- Table -->
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>姓名</th>
+                                <th>性别</th>
+                                <th>家庭地址</th>
+                                <th>邮箱</th>
+                                <th>工资</th>
+                                <th>入职日期</th>
+                                <th>所在部门</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for foo in user_querySet %}
+                                <tr>
+                                    <th scope="row">{{ foo.id }}</th>
+                                    <td>{{ foo.user_name }}</td>
+                                    <td>{{ foo.get_user_gender_display }}</td>
+                                    <td>{{ foo.user_age }}</td>
+                                    <td>{{ foo.user_email }}</td>
+                                    <td>{{ foo.user_salary }}</td>
+                                    <td>{{ foo.user_entry_time|date:"Y-m-d" }}</td>
+                                    <td>{{ foo.depart }}</td>
+                                    <td>
+                                        <a href="/user/{{ foo.id }}/edit/" class="btn btn-primary btn-sm">查看</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 联动菜单 -->
+    <div class="container-fluid">
+        <div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
+                                                          data-toggle="tab">Home</a></li>
+                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab"
+                                           data-toggle="tab">Profile</a></li>
+                <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a>
+                </li>
+                <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a>
+                </li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="home">
+                    <div class="row">
+                        <div class="col-xs-6 col-md-3">
+                            <a href="#" class="thumbnail">
+                                <img src="{% static 'images/time.jpg' %}"
+                                     alt="风景图1">
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-3">
+                            <a href="#" class="thumbnail">
+                                <img src="{% static 'images/time.jpg' %}"
+                                     alt="风景图1">
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-3">
+                            <a href="#" class="thumbnail">
+                                <img src="{% static 'images/time.jpg' %}"
+                                     alt="风景图1">
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-3">
+                            <a href="#" class="thumbnail">
+                                <img src="{% static 'images/time.jpg' %}"
+                                     alt="风景图1">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="profile">
+                    <div role="tabpanel" class="tab-pane active" id="home">
+                        <div class="row">
+                            <div class="col-xs-6 col-md-3">
+                                <a href="#" class="thumbnail">
+                                    <img src="{% static 'images/time1.jpg' %}"
+                                         alt="风景图1">
+                                </a>
+                            </div>
+                            <div class="col-xs-6 col-md-3">
+                                <a href="#" class="thumbnail">
+                                    <img src="{% static 'images/time1.jpg' %}"
+                                         alt="风景图1">
+                                </a>
+                            </div>
+                            <div class="col-xs-6 col-md-3">
+                                <a href="#" class="thumbnail">
+                                    <img src="{% static 'images/time1.jpg' %}"
+                                         alt="风景图1">
+                                </a>
+                            </div>
+                            <div class="col-xs-6 col-md-3">
+                                <a href="#" class="thumbnail">
+                                    <img src="{% static 'images/time1.jpg' %}"
+                                         alt="风景图1">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="messages">
+                    <div role="tabpanel" class="tab-pane active" id="home">
+                        <div class="row">
+                            <div class="col-xs-6 col-md-3">
+                                <a href="#" class="thumbnail">
+                                    <img src="{% static 'images/time2.gif' %}"
+                                         alt="风景图1">
+                                </a>
+                            </div>
+                            <div class="col-xs-6 col-md-3">
+                                <a href="#" class="thumbnail">
+                                    <img src="{% static 'images/time2.gif' %}"
+                                         alt="风景图1">
+                                </a>
+                            </div>
+                            <div class="col-xs-6 col-md-3">
+                                <a href="#" class="thumbnail">
+                                    <img src="{% static 'images/time2.gif' %}"
+                                         alt="风景图1">
+                                </a>
+                            </div>
+                            <div class="col-xs-6 col-md-3">
+                                <a href="#" class="thumbnail">
+                                    <img src="{% static 'images/time2.gif' %}"
+                                         alt="风景图1">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="settings">
+                    <div role="tabpanel" class="tab-pane active" id="home">
+                        <div class="row">
+                            <div class="col-xs-6 col-md-3">
+                                <a href="#" class="thumbnail">
+                                    <img src="{% static 'images/time3.jpg' %}"
+                                         alt="风景图1">
+                                </a>
+                            </div>
+                            <div class="col-xs-6 col-md-3">
+                                <a href="#" class="thumbnail">
+                                    <img src="{% static 'images/time3.jpg' %}"
+                                         alt="风景图1">
+                                </a>
+                            </div>
+                            <div class="col-xs-6 col-md-3">
+                                <a href="#" class="thumbnail">
+                                    <img src="{% static 'images/time3.jpg' %}"
+                                         alt="风景图1">
+                                </a>
+                            </div>
+                            <div class="col-xs-6 col-md-3">
+                                <a href="#" class="thumbnail">
+                                    <img src="{% static 'images/time3.jpg' %}"
+                                         alt="风景图1">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 动态展示信息 -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingOne">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                                   aria-expanded="true" aria-controls="collapseOne">
+                                    最美祝福10
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
+                             aria-labelledby="headingOne">
+                            <div class="panel-body">
+                                1、半梦半醒之间。
+                                2、愿和你到白头。
+                                3、你是我的爽歪歪。
+                                4、三杯酒醉余生。
+                                5、人总要靠自己。<br/>
+                                6、每天只爱你。
+                                7、坚强还是逞强。
+                                8、丁是丁卯是卯。
+                                9、寂寞粉碎年华。
+                                10、春梦随云散。
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingTwo">
+                            <h4 class="panel-title">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    最美祝福20
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
+                             aria-labelledby="headingTwo">
+                            <div class="panel-body">
+                                11、夫善则妻贤。
+                                12、有梦就别怕痛。
+                                13、若要强先自强。
+                                14、严师不如益友。
+                                15、思念覆水难收。<br/>
+                                16、如若小城依兮。
+                                17、昨日不复来。
+                                18、人生若如初见。
+                                19、落日故人情。
+                                20、酒是穿肠毒药。
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingThree">
+                            <h4 class="panel-title">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    最美祝福30
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
+                             aria-labelledby="headingThree">
+                            <div class="panel-body">
+                                21、时钟轻摇寂寞。
+                                22、朝廷不差饿兵。
+                                23、给我一个拥抱。
+                                24、可望而不可即。
+                                25、三思而后行。<br/>
+                                26、用奋斗去征服。
+                                27、笨蛋、牵着我。
+                                28、独影叹惜残月。
+                                29、流年浸透年少。
+                                30、从此永不分离。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+                         aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
+                        <span class="sr-only">40% Complete (success)</span>
+                    </div>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
+                         aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                        <span class="sr-only">20% Complete</span>
+                    </div>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar"
+                         aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+                        <span class="sr-only">60% Complete (warning)</span>
+                    </div>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar"
+                         aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
+                        <span class="sr-only">50% Complete (danger)</span>
+                    </div>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar"
+                         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                        <span class="sr-only">60% Complete (danger)</span>
+                    </div>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar"
+                         aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
+                        <span class="sr-only">50% Complete (danger)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Echarts图表 -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-4">
+                <div id="main" style="width: 500px;height:400px;"></div>
+                <script type="text/javascript">
+                    // 基于准备好的dom，初始化echarts实例
+                    var myChart = echarts.init(document.getElementById('main'));
+
+                    // 指定图表的配置项和数据
+                    option = {
+                        title: {
+                            text: 'ECharts 入门示例'
+                        },
+                        tooltip: {},
+                        legend: {
+                            data: ['薪资情况']
+                        },
+                        xAxis: {
+                            data: {{ data.names|safe }}
+                        },
+                        yAxis: {},
+                        series: [
+                            {
+                                name: '薪资情况',
+                                type: 'bar',
+                                data: {{ data.salary|safe }}
+                            }
+                        ]
+                    };
+
+                    // 使用刚指定的配置项和数据显示图表。
+                    myChart.setOption(option);
+                </script>
+            </div>
+            <div class="col-sm-4">
+                <div id="main1" style="width: 500px;height:400px;"></div>
+                <script>
+                    // 初始化实例
+                    var myChart = echarts.init(document.getElementById('main1'));
+                    option = {
+                        xAxis: {},
+                        yAxis: {},
+                        series: [
+                            {
+                                data: [
+                                    [20, 120],
+                                    [50, 200],
+                                    [40, 50]
+                                ],
+                                type: 'line'
+                            }
+                        ]
+                    };
+                    myChart.setOption(option);
+                </script>
+            </div>
+            <div class="col-sm-4">
+                <div id="main2" style="width: 500px;height:400px;"></div>
+                <script>
+                    // 初始化实例
+                    var myChart = echarts.init(document.getElementById('main2'));
+                    option = {
+                        series: [
+                            {
+                                type: 'pie',
+                                data: [
+                                    {
+                                        value: 335,
+                                        name: '直接访问'
+                                    },
+                                    {
+                                        value: 234,
+                                        name: '联盟广告'
+                                    },
+                                    {
+                                        value: 1548,
+                                        name: '搜索引擎'
+                                    }
+                                ]
+                            }
+                        ]
+                    };
+                    myChart.setOption(option);
+                </script>
+            </div>
+        </div>
+    </div>
+
+    <!-- 音乐播放器 -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 text-center">
+                <div class="box">
+                    <h3>简单音乐播放器</h3>
+                    <hr/>
+                    <audio id="audio" src="{% static 'media/可可西里.mp3' %}" preload
+                           loop controls>
+                        浏览器不支持
+                    </audio>
+                    <!-- 歌曲名字 -->
+                    <div>
+                        <h4>当前正在播放：<span id="title">可可托海的牧羊人</span></h4>
+                    </div>
+                    <!-- 播放控制 -->
+                    <div>
+                        <button onclick="lastMusic()" class="btn btn-lg"><span
+                                class="glyphicon glyphicon-backward"></span></button>
+                        <button onclick="toggleMusic()" class="btn btn-lg"><span class="
+                  glyphicon glyphicon-play" id="mySpan"></span></button>
+                        <button onclick="nextMusic()" class="btn btn-lg"><span
+                                class="glyphicon glyphicon-forward"></span></button>
+                    </div>
+                    <script>
+                        var music = document.getElementById("audio");
+                        var volume = document.getElementById("volume");
+                        var mySpan = document.getElementById("mySpan");
+                        var list = ["{% static 'media/42620.mp3' %}",
+                            "{% static 'media/59930.mp3' %}",
+                            "{% static 'media/5185.mp3' %}",
+                            "{% static 'media/5186.mp3' %}",
+                            "{% static 'media/5187.mp3' %}",
+                            "{% static 'media/5189.mp3' %}",
+                            "{% static 'media/5190.mp3' %}",
+                            "{% static 'media/5191.mp3' %}",
+                            "{% static 'media/5192.mp3' %}"];
+                        var titleList = ["千千厥歌", "突然的自我", "等一分钟", "一生有你", "红日", "美丽的神话", "刚好遇见你", "一路生花", "遇见"];
+                        var i = 0;
+
+                        function setVolume() {
+                            music.volume = volume.value;
+                        }
+
+                        function toggleMusic() {
+                            if (music.paused) {
+                                music.play();
+                                mySpan.setAttribute('class', 'glyphicon glyphicon-pause')
+                            } else {
+                                music.pause();
+                                mySpan.setAttribute('class', 'glyphicon glyphicon-play')
+                            }
+
+                        }
+
+                        function nextMusic() {
+                            if (i === list.length - 1)
+                                i = 0;
+                            else
+                                i++;
+                            music.pause();
+                            music.src = list[i];
+                            title.innerHTML = titleList[i];
+                            music.play();
+                            mySpan.setAttribute('class', 'glyphicon glyphicon-pause')
+                        }
+
+                        function lastMusic() {
+                            if (i === 0)
+                                i = list.length - 1;
+                            else
+                                i--;
+                            music.pause();
+                            music.src = list[i];
+                            title.innerHTML = titleList[i];
+                            music.play();
+                            mySpan.setAttribute('class', 'glyphicon glyphicon-pause')
+                        }
+                    </script>
+                </div>
+            </div>
+            <div class="col-sm-9">
+                <div id="main3" style="width: 900px; height: 300px;"></div>
+                <script type="text/javascript">
+                    var myChart = echarts.init(document.getElementById('main3'));
+                    option = {
+                        title: {
+                            text: 'Stacked Line'
+                        },
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        legend: {
+                            data: ['Email', 'Union Ads', 'Video Ads', 'Direct', 'Search Engine']
+                        },
+                        grid: {
+                            left: '3%',
+                            right: '4%',
+                            bottom: '3%',
+                            containLabel: true
+                        },
+                        toolbox: {
+                            feature: {
+                                saveAsImage: {}
+                            }
+                        },
+                        xAxis: {
+                            type: 'category',
+                            boundaryGap: false,
+                            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                        },
+                        yAxis: {
+                            type: 'value'
+                        },
+                        series: [
+                            {
+                                name: 'Email',
+                                type: 'line',
+                                stack: 'Total',
+                                data: [120, 132, 101, 134, 90, 230, 210]
+                            },
+                            {
+                                name: 'Union Ads',
+                                type: 'line',
+                                stack: 'Total',
+                                data: [220, 182, 191, 234, 290, 330, 310]
+                            },
+                            {
+                                name: 'Video Ads',
+                                type: 'line',
+                                stack: 'Total',
+                                data: [150, 232, 201, 154, 190, 330, 410]
+                            },
+                            {
+                                name: 'Direct',
+                                type: 'line',
+                                stack: 'Total',
+                                data: [320, 332, 301, 334, 390, 330, 320]
+                            },
+                            {
+                                name: 'Search Engine',
+                                type: 'line',
+                                stack: 'Total',
+                                data: [820, 932, 901, 934, 1290, 1330, 1320]
+                            }
+                        ]
+                    };
+                    myChart.setOption(option)
+                </script>
+            </div>
+        </div>
+    </div>
+
+    <!-- 分页 -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8 text-center">
+                <nav aria-label="...">
+                    <ul class="pagination">
+                        <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a>
+                        </li>
+                        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+    </div>
+{% endblock %}

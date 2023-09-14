@@ -1,0 +1,147 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户登录界面</title>
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- 最新的Echarts图表JS文件 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.2/echarts.min.js"></script>
+    <!-- 加载图标文件-->
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+
+    <style>
+        .error {
+            top: 10px;
+            left: 25px;
+            color: red;
+            position: relative;
+        }
+
+        .my-span {
+            position: absolute;
+            top: 36px;
+            left: -25px;
+        }
+
+        .errorlist {
+            list-style: none;
+            position: absolute;
+            top: 4px;
+            left: 30px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <div class="panel panel-success" style="margin-top: 66px; height: 550px;">
+                <div class="panel-heading">
+                    <h5>明达科技网</h5>
+                    <h1>信息管理登录</h1>
+                </div>
+                <div class="panel-body">
+                    <form action="" method="post" novalidate>
+                        {% csrf_token %}
+                        <!--用户名-->
+                        <div class="row">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-8" style="height: 80px;">
+                                <div class="input-group" style="margin-top: 15px; margin-left: 45px">
+                                    <label id="sizing-addon1">{{ forms.username.label|safe }}</label>
+                                    {{ forms.username }}
+                                    {% if forms.username.errors.0 %}
+                                        <div class="error">
+                                            <span class='glyphicon glyphicon-alert my-span'
+                                                  aria-hidden="true"></span>{{ forms.username.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-sm-2"></div>
+                        </div>
+                        <!--密码-->
+                        <div class="row">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-8" style="height: 80px;">
+                                <div class="input-group" style="margin-top: 35px; margin-left: 45px;">
+                                    <label
+                                            id="sizing-addon1">{{ forms.password.label|safe }}</label>
+                                    {{ forms.password }}
+                                    {% if forms.password.errors.0 %}
+                                        <div class="error">
+                                            <span class='glyphicon glyphicon-alert my-span'
+                                                  aria-hidden="true"></span>{{ forms.password.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-sm-2"></div>
+                        </div>
+                        <!-- 图片验证码-->
+                        <div class="row">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-8">
+                                <div class="form-group" style="margin-top: 20px;">
+                                    <div class="row">
+                                        <div class="col-xs-7">
+                                            <div class="input-group" style="margin-top: 35px; margin-left: 45px;">
+                                                <label
+                                                        id="sizing-addon1">{{ forms.code.label|safe }}</label>
+                                                {{ forms.code }}
+                                                {% if forms.code.errors.0 %}
+                                                    <div class="error">
+                                            <span class='glyphicon glyphicon-alert my-span'
+                                                  aria-hidden="true"></span>{{ forms.code.errors.0 }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-5" style="margin-top: 55px; height: 60px;">
+                                            <img src="/image/code/" alt="" id="image_code">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-2"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-8 text-center">
+                                <input type="submit" value="提交" class="btn btn-primary"
+                                       style="margin-top: 15px; width: 260px;">
+                            </div>
+                            <div class="col-sm-2"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+</div>
+</body>
+<script>
+    // 获取图片元素对象
+    const img = document.querySelector('#image_code')
+    img.addEventListener('click', function(){
+        {#window.location='/login/'#}
+        $.ajax({
+            url: '/image/code/',
+            type: 'GET',
+            data: {},
+            dataType: 'json',
+            success: function (res){
+                console.log("你的名字")
+            }
+        })
+    })
+</script>
+</html>

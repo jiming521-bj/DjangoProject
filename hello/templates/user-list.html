@@ -1,0 +1,54 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ch-ZN">
+<head>
+    <meta charset="UTF-8">
+    <title>用户信息列表</title>
+    <link rel="stylesheet" href="{% static 'css/user-list.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <style>
+        th {
+            text-align: center;
+        }
+        h1 {
+            margin: 30px auto 30px 20px;
+            font: normal 700 28px '宋体';
+        }
+    </style>
+</head>
+<body>
+<h1>明达科技有限公司</h1>
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">姓名</th>
+      <th scope="col">年龄</th>
+      <th scope="col">大小</th>
+        <th scope="col">数据</th>
+        <th scope="col">操作</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for obj in data_list %}
+        <tr>
+         <th scope="row">{{ obj.id }}</th>
+        <td>{{ obj.name }}</td>
+        <td>{{ obj.age }}</td>
+        <td>{{ obj.size }}</td>
+        <td>{{ obj.data }}</td>
+        <td>
+            <a href="http://127.0.0.1:8000/user/delete?id={{ obj.id }}" class="btn btn-danger">删除</a>
+            <a href="http://127.0.0.1:8000/user/update?id={{ obj.id }}" class="btn btn-success">更新</a>
+            <a href="http://127.0.0.1:8000/user/add" class="btn btn-primary">添加</a>
+        </td>
+        </tr>
+{% endfor %}
+  </tbody>
+</table>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-Lge2E2XotzMiwH69/MXB72yLpwyENMiOKX8zS8Qo7LDCvaBIWGL+GlRQEKIpYR04" crossorigin="anonymous"></script>
+</body>
+</html>

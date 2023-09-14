@@ -1,0 +1,108 @@
+{% extends 'layout.html' %}
+
+{% block css %}
+    <!-- 时间库-->
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker.min.css"
+          rel="stylesheet">
+{% endblock %}
+{% block content %}
+    {#    面板#}
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="font-weight: 700;">
+                添加用户
+                <a href="/user/list/" class="btn btn-primary" style="margin-left: 20px;">返回</a>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-6">
+                        <form method="post" action="/user/add/">
+                            {% csrf_token %}
+                            <!-- 姓名-->
+                            <div class="input-group">
+                                <label for="username">姓名</label>
+                                <input type="text" class="form-control" placeholder="姓名"
+                                       aria-describedby="basic-addon1" id="username" name="name">
+                            </div>
+
+                            <!-- 性别-->
+                            <div class="input-group">
+                                <label for="gen">性别</label>
+                                <select name="gender" id="gen" class="form-control">
+                                    {% for choice in choices %}
+                                        <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <!-- 年龄-->
+                            <div class="input-group">
+                                <label for="year">年龄</label>
+                                <input type="text" class="form-control" placeholder="年龄"
+                                       aria-describedby="basic-addon1" id="year" name="age">
+                            </div>
+
+                            <!-- 家庭地址-->
+                            <div class="input-group">
+                                <label for="add">家庭地址</label>
+                                <input type="text" class="form-control" placeholder="家庭地址"
+                                       aria-describedby="basic-addon1" id="add" name="address">
+                            </div>
+
+                            <!-- 邮箱-->
+                            <div class="input-group">
+                                <label for="email">邮箱</label>
+                                <input type="text" class="form-control" placeholder="邮箱"
+                                       aria-describedby="basic-addon1" id="email" name="mail">
+                            </div>
+
+                            <!-- 薪资-->
+                            <div class="input-group">
+                                <label for="title">薪资</label>
+                                <input type="text" class="form-control" placeholder="薪资"
+                                       aria-describedby="basic-addon1" id="title" name="salary">
+                            </div>
+
+                            <!-- 入职时间-->
+                            <div class="input-group">
+                                <label for="dt">入职时间</label>
+                                <input type="text" autocomplete="true" class="form-control" placeholder="入职时间"
+                                       aria-describedby="basic-addon1" id="dt" name="ctime">
+                            </div>
+
+                            <!-- 部门-->
+                            <div class="input-group">
+                                <label for="department">部门</label>
+                                <select name="depart" id="department" class="form-control">
+                                    {% for foo in departs %}
+                                        <option value="{{ foo.id }}">{{ foo.depart_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <input type="submit" value="提交" class="btn btn-success"
+                                   style="margin-top: 20px; width: 20%;">
+                        </form>
+                    </div>
+                    <div class="col-sm-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap-datepicker/1.6.0/js/bootstrap-datepicker.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/bootstrap-datepicker/1.6.0/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+    <script>
+        $(function () {
+            $('#dt').datepicker({
+                format: 'yyyy-mm-dd',
+                startDate: 0,
+                language: 'zh-CN',
+                autoclose: true
+            })
+        })
+    </script>
+{% endblock %}
