@@ -346,3 +346,17 @@ class OrderModelForm(Bootstrap):
         if price < 0:
             raise ValidationError('价格不能小于0！')
         return price
+
+
+class DeviceEditModelForm(Bootstrap):
+    """
+    设备的修改
+    """
+    # edit_title = forms.CharField(label='标题')
+    # edit_detail = forms.CharField(label='详情')
+    # edit_level = forms.IntegerField(label='级别')
+    # edit_person = forms.IntegerField(label='负责人')
+
+    class Meta:
+        model = models.Device
+        fields = "__all__"

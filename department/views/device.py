@@ -6,7 +6,7 @@
 
 from django.shortcuts import render, HttpResponse, redirect
 from django.views.decorators.csrf import csrf_exempt
-from department.my_forms import Device_List
+from department.my_forms import Device_List, DeviceEditModelForm
 from django.http import JsonResponse  # 返回JSON格式的数据
 import json
 from department import models
@@ -146,3 +146,54 @@ def device_muilt(request):
         return HttpResponse("<script>alert('列表中已经存在任务了，请不要重复添加！');window.location='/device/list/';</script>")
     # 返回响应数据
     return HttpResponse("<script>alert('文件上传成功');window.location='/device/list/';</script>")
+
+
+def device_detail(request):
+    """
+    获取数据
+    :param request:
+    :return:
+    """
+    nid = request.GET.get('nid')
+    if not models.Device.objects.filter(id=nid).exists():
+        context = {
+            'static': False,
+            'error': '该条数据不存在',
+        }
+    values = models.Device.objects.filter(id=nid).values('title', 'detail', 'level', 'person').first()
+    print(values)
+    context = {
+        'static': True,
+        'values': values,
+    }
+    return HttpResponse(json.dumps(context))
+
+
+@csrf_exempt
+def device_edit(request):
+    """
+    修改任务管理
+    :param request:
+    :return:
+    """
+    nid = request.GET.get('nid')
+    print(nid)
+    exist = models.Device.objects.filter(id=nid).first()
+    print(exist)
+
+    if not exist:
+        context = {
+            'static': False,
+            'error': '修改失败，数据不存在'
+        }
+        return JsonResponse(context)
+    forms = DeviceEditModelForm(data=request.POST, instance=exist)
+    if forms.is_valid():
+        print(forms.cleaned_data)
+        forms.save()
+        return JsonResponse({'static': True})
+    context = {
+        'static': False,
+        'error': forms.errors
+    }
+    return JsonResponse(context)

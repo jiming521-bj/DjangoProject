@@ -73,6 +73,8 @@ urlpatterns = [
     path('device/ajax/', device.device_ajax),
     path('device/add/', device.device_add),
     path('device/<int:nid>/delete/', device.device_delete),
+    path('device/edit/', device.device_edit),
+    path('device/detail/', device.device_detail),
     path('device/muilt/', device.device_muilt),
 
     # 订单管理
