@@ -6,6 +6,7 @@
 
 from django.shortcuts import render, HttpResponse
 import os
+from department.my_forms import UploadModelForm
 
 
 def upload_list(request):
@@ -14,7 +15,14 @@ def upload_list(request):
     :param request:
     :return:
     """
-    return render(request, 'upload-list.html')
+    forms = UploadModelForm()
+
+    context = {
+        'title': '文件上传',
+        'forms': forms,
+    }
+
+    return render(request, 'upload-list.html', context)
 
 
 def upload_value(request):

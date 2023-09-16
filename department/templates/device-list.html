@@ -18,20 +18,19 @@
                     <form id="formAdd" noValidate>
                         <!--添加-->
                         <div class="panel-body">
-
-{#                            {% for form in forms %}#}
-{#                                <div class="form-group" style="position: relative;">#}
-{#                                    <label style="margin-top: 20px;">{{ form.label }}</label>#}
-{#                                    {{ form }}#}
-{#                                    {% if form.errors %}#}
-{#                                        <div class="error">#}
-{#                                                <span class='glyphicon glyphicon-alert my-span'#}
-{#                                                      aria-hidden="true"></span>{{ form.errors }}#}
-{#                                        </div>#}
-{#                                    {% endif %}#}
-{#                                    <span style="position: absolute; color: red;" class="errorMsg"></span>#}
-{#                                </div>#}
-{#                            {% endfor %}#}
+                            {% for form in forms %}
+                                <div class="form-group" style="position: relative;">
+                                    <label style="margin-top: 20px;">{{ form.label }}</label>
+                                    {{ form }}
+                                    {% if form.errors %}
+                                        <div class="error">
+                                                <span class='glyphicon glyphicon-alert my-span'
+                                                      aria-hidden="true"></span>{{ form.errors }}
+                                        </div>
+                                    {% endif %}
+                                    <span style="position: absolute; color: red;" class="errorMsg"></span>
+                                </div>
+                            {% endfor %}
                         </div>
                         <button class="btn btn-primary bnt-sm" id="addBtn"
                                 style="width: 150px; margin-bottom: 10px; margin-left: 30px;">提交

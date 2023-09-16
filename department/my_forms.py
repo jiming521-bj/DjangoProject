@@ -7,11 +7,11 @@ from django import forms
 from department import models
 from django.core.validators import RegexValidator
 from django.core.validators import ValidationError
-from department.utils.bootstrap import Bootstrap
+from department.utils.bootstrap import MyForm, MyModelForm
 from department.utils.encryption import md5
 
 
-class MyModelFrom(Bootstrap):
+class MyModelFrom(MyModelForm):
     # 重定义user_name字段的属性值
     user_name = forms.CharField(min_length=3, label='姓名')
     user_entry_time = forms.DateTimeField(widget=forms.DateTimeInput, label="入职日期")
@@ -30,7 +30,7 @@ class MyModelFrom(Bootstrap):
         }
 
 
-class MyPrettyModelForm(Bootstrap):
+class MyPrettyModelForm(MyModelForm):
     """
     靓号管理的 ModelForm
     """
@@ -109,7 +109,7 @@ class MyPrettyModelForm(Bootstrap):
                 return price
 
 
-class MyPrettyEditModelForm(Bootstrap):
+class MyPrettyEditModelForm(MyModelForm):
     # 修改的时候 让手机号不能编辑
     # mobile = forms.CharField(disabled=True, label='手机号')
 
@@ -140,7 +140,7 @@ class MyPrettyEditModelForm(Bootstrap):
             return price_input
 
 
-class AdminModelForm(Bootstrap):
+class AdminModelForm(MyModelForm):
     """
     添加管理员
     """
@@ -196,7 +196,7 @@ class AdminModelForm(Bootstrap):
         return pwd
 
 
-class AdminEditModelForm(Bootstrap):
+class AdminEditModelForm(MyModelForm):
     """
     修改管理员用户名
     """
@@ -220,7 +220,7 @@ class AdminEditModelForm(Bootstrap):
         return self.cleaned_data.get('username')
 
 
-class AdminResetModelForm(Bootstrap):
+class AdminResetModelForm(MyModelForm):
     """
     重置密码
     """
@@ -287,7 +287,7 @@ class Login(forms.Form):
         return md5(pwd)
 
 
-class Device_List(Bootstrap):
+class Device_List(MyModelForm):
     """
     设置任务
     """
@@ -310,7 +310,7 @@ class Device_List(Bootstrap):
         return til
 
 
-class OrderModelForm(Bootstrap):
+class OrderModelForm(MyModelForm):
     """
     订单管理的ModelForm
     """
@@ -348,10 +348,11 @@ class OrderModelForm(Bootstrap):
         return price
 
 
-class DeviceEditModelForm(Bootstrap):
+class DeviceEditModelForm(MyModelForm):
     """
     设备的修改
     """
+
     # edit_title = forms.CharField(label='标题')
     # edit_detail = forms.CharField(label='详情')
     # edit_level = forms.IntegerField(label='级别')
@@ -360,3 +361,29 @@ class DeviceEditModelForm(Bootstrap):
     class Meta:
         model = models.Device
         fields = "__all__"
+
+
+class UploadModelForm(MyForm):
+    """
+    实现文件上传
+    """
+    # 姓名
+    name = forms.CharField(label='姓名', max_length=30)
+    # 年龄
+    age = forms.IntegerField(label='年龄')
+    # 头像
+    file_image = forms.FileField(label='头像', max_length=100)
+
+    def clean_age(self):
+        # 获取用户输入的年龄
+        input_age = self.cleaned_data.get('age')
+        if input_age <= 0:
+            raise ValidationError('请输入有效的年龄')
+        return input_age
+
+    def clean_name(self):
+        # 验证姓名是否一致
+        input_name = self.cleaned_data.get('name')
+        if input_name == 'jiming':
+            raise ValidationError('该用户已存在')
+        return input_name

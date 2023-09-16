@@ -1,28 +1,59 @@
 {% extends 'layout.html' %}
 
+{% block style %}
+    <style>
+
+        .error {
+            color: red;
+            position: relative;
+        }
+        .my-span {
+            position: absolute;
+            top: 6px;
+            left: 10px;
+        }
+        .errorlist {
+            list-style: none;
+            position: absolute;
+            top: 4px;
+            left: -10px;
+        }
+    </style>
+{% endblock %}
 {% block content %}
-<div class="container">
-    <h1>文件上传</h1>
-    <!-- enctype:multipart/form-data表示支持上传文件内容 -->
-    <form action="/upload/value/" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="row">
-            <div class="col-sm-6">
-                <!-- 用户姓名 -->
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="姓名" name="username">
-                </div><!-- /input-group -->
+    {#    面板#}
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="font-weight: 700;">
+                {{ title }}
             </div>
-            <div class="col-sm-6">
-                <!-- 用户年龄 -->
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="年龄" name="userAge">
-                </div><!-- /input-group -->
-            </div> 
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-6">
+                        <!-- novalidate 关闭浏览器的校验-->
+                        <form method="post" novalidate enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <!-- 管理员-->
+                            {% for form in forms %}
+                                <div class="form-group">
+                                    <label style="margin-top: 20px;">{{ form.label }}</label>
+                                    {{ form }}
+                                    {% if form.errors %}
+                                        <div class="error">
+                                            <span class='glyphicon glyphicon-alert my-span'
+                                                  aria-hidden="true"></span>{{ form.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                            <input type="submit" value="提交" class="btn btn-success"
+                                   style="margin-top: 20px; width: 20%;">
+                        </form>
+                    </div>
+                    <div class="col-sm-4"></div>
+                </div>
+            </div>
         </div>
-        <!-- 头像文件 -->
-        <input type="file" name="files" id="" style="margin-top: 20px;">
-        <input type="submit" value="提交" class="btn btn-primary btn-sm" style="margin-top: 10px; width: 100px;">
-    </form>
-</div>
+    </div>
 {% endblock %}
